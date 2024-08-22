@@ -11,7 +11,9 @@ const User = require('../models/user')
 
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
+  console.log("Authorization (NotesController):", authorization)
   if (authorization && authorization.startsWith('Bearer ')) {
+    //console.log("Entré acaaaa!")
     return authorization.replace('Bearer ', '')
   }
   return null
@@ -35,9 +37,11 @@ notesRouter.get('/:id', async (request, response, next) => {
   }
 })
 
+//Acá está el problema! no estoy agarrando la configuracion del header
 notesRouter.post('/', async (request, response) => {
   const body = request.body
-  
+  //console.log(request.headers)
+  //console.log("El token es (backend)", getTokenFrom(request))
   const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
