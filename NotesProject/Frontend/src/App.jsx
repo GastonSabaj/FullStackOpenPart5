@@ -150,7 +150,7 @@ const App = () => {
         <p>User <b>"{user.name}"</b> is logged-in</p>
         {noteForm()}
       </div>
-    }
+      }
 
       <div>
         <button onClick={() => setShowAll(!showAll)}>

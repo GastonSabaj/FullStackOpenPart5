@@ -1,8 +1,7 @@
-POST http://localhost:3001/api/notes 
+POST http://localhost:3002/api/login 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2NmM1ZjZkYjdmMDNhZGJlMzNjNjI2MTEiLCJpYXQiOjE3MjQzNDc1NTcsImV4cCI6MTcyNDM1MTE1N30.MUrMCMNOIpTgojuTWOZR4AfHTgrqtx6OazwM7XlO2p0
 
 {
-"content":"Holafsdf",
-"important": false
+"username":"test",
+"password":"test"
 }
