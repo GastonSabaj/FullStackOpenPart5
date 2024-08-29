@@ -9,6 +9,23 @@ usersRouter.get('/', async (request, response) => {
     response.json(users)
 })
 
+usersRouter.get('/:id', async (request, response) => {
+  console.log("El usuario es:",request.user)
+  const user = await User.findById(request.user.id).populate('blogs', { title: 1, author: 1, url: 1, likes: 1 })
+  response.json(user)                 
+  // const objectId = require('mongodb').ObjectId
+  // const id = new objectId(request.params.id)
+
+  //const user = await User.findById(id)
+  //console.log("el user es: ",user)
+  //const user = await User.findOne({ username: request.params.username })
+  //console.log(user)
+
+  //const user = await User.findById(request.params.id).populate('blogs', { title: 1, author: 1, url: 1, likes: 1 })
+  //response.json(user)
+})
+
+
 //Creo un nuevo usuario
 usersRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body

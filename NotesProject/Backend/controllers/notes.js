@@ -11,7 +11,7 @@ const User = require('../models/user')
 
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
-  console.log("Authorization (NotesController):", authorization)
+  //console.log("Authorization (NotesController):", authorization)
   if (authorization && authorization.startsWith('Bearer ')) {
     //console.log("Entré acaaaa!")
     return authorization.replace('Bearer ', '')
@@ -37,9 +37,10 @@ notesRouter.get('/:id', async (request, response, next) => {
   }
 })
 
-//Acá está el problema! no estoy agarrando la configuracion del header
+//Esto va a tirar error 400 bad request si la nota a guardar ya existe
 notesRouter.post('/', async (request, response) => {
   const body = request.body
+  //console.log(body)
   //console.log(request.headers)
   //console.log("El token es (backend)", getTokenFrom(request))
   const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
@@ -48,6 +49,7 @@ notesRouter.post('/', async (request, response) => {
   }
   const user = await User.findById(decodedToken.id)
 
+  
 
   const note = new Note({
     content: body.content,
@@ -58,7 +60,6 @@ notesRouter.post('/', async (request, response) => {
   const savedNote = await note.save()
   user.notes = user.notes.concat(savedNote._id)
   await user.save()
-  
   response.status(201).json(savedNote)
 })
 
