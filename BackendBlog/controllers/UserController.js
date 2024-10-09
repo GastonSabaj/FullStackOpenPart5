@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/User')
+const middleware = require('../utils/middleware')
 
 
 //Obtengo todos los usuarios
@@ -9,10 +10,12 @@ usersRouter.get('/', async (request, response) => {
     response.json(users)
 })
 
-usersRouter.get('/:id', async (request, response) => {
-  console.log("El usuario es:",request.user)
+// Esta ruta particularmente fue definida para que reciba acá particularmente los middleware de tokenExtractor y userExtractor
+usersRouter.get('/:id', middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+  console.log("El usuario ess:", request.user)
   const user = await User.findById(request.user.id).populate('blogs', { title: 1, author: 1, url: 1, likes: 1 })
-  response.json(user)                 
+  response.json(user)     
+
   // const objectId = require('mongodb').ObjectId
   // const id = new objectId(request.params.id)
 
@@ -56,6 +59,18 @@ usersRouter.post('/', async (request, response) => {
   const savedUser = await user.save()
 
   response.status(201).json(savedUser)
+})
+
+//Borro un usuario
+usersRouter.delete('/:id', async (request, response) => {
+  const id = request.params.id
+  const user = await User.findByIdAndRemove(id)
+  if (!user) {
+    return response.status(404).json({
+      error: 'User not found'
+    })
+  }
+  response.status(204).end()
 })
 
 module.exports = usersRouter

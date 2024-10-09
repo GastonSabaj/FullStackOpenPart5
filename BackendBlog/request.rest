@@ -3,10 +3,11 @@
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjY2YzYwZTM3MjQ5NDlkMjllOTFhMzEyZSIsImlhdCI6MTcyNDY3OTQ1OSwiZXhwIjoxNzI0NjgzMDU5fQ.TtUbEal6oFdJchsAvL1lp1eWC7byegT9F2mBmMroF5o
 
 //////////////////////////////////////    Ejemplo request login:
-POST http://localhost:3003/api/login 
+POST http://localhost:3003/api/users 
 Content-Type: application/json
 
 {
-"username":"mluukkai",
-"password":"mluukkai"
+"username":"mluukkai1",
+"name":"Matti Luukkainen1",
+"password":"mluukkai1"
 }

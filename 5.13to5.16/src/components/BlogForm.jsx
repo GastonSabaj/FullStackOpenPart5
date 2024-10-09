@@ -13,7 +13,6 @@ const BlogForm = ({ createBlog }) => {
         createBlog(blogObject)
     }
     
-    //Falta el RETURN DEL JSX
     return (
         <div>
         <h2>create new</h2>
@@ -21,6 +20,7 @@ const BlogForm = ({ createBlog }) => {
           <div>
             title
             <input
+              data-testid='title'
               type="text"
               name="title"
               required
@@ -29,6 +29,7 @@ const BlogForm = ({ createBlog }) => {
           <div>
             author
             <input
+              data-testid='author'
               type="text"
               name="author"
               required
@@ -37,6 +38,7 @@ const BlogForm = ({ createBlog }) => {
           <div>
             url
             <input
+              data-testid='url'
               type="text"
               name="url"
               required

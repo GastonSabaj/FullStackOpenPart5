@@ -29,8 +29,14 @@ app.use(middleware.requestLogger)
 //Lo que hago es hacer un enrutador que arma las rutas a partir de /api/blogs
 // Aplicar el tokenExtractor y userExtractor solo a las rutas que lo necesiten
 app.use('/api/blogs', middleware.tokenExtractor, middleware.userExtractor, notesRouter)
-app.use('/api/users', middleware.tokenExtractor, middleware.userExtractor, usersRouter)
+app.use('/api/users', usersRouter); // Para operaciones públicas
+app.use('/api/users/:id', middleware.tokenExtractor, middleware.userExtractor, usersRouter); // Para obtener datos del usuario
 app.use('/api/login', loginRouter)
+
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/testing')
+  app.use('/api/testing', testingRouter)
+}
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

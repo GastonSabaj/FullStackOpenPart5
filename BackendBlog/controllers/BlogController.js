@@ -17,6 +17,7 @@ const getTokenFrom = request => {
 
 
 blogRouter.get('/', async (request, response) => {
+  console.log("El usuario de la request es: ", request.user)
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 });
   response.json(blogs)
 })

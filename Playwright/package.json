@@ -1,0 +1,17 @@
+{
+  "name": "fullstackopenpart5",
+  "version": "1.0.0",
+  "description": "# El repositorio es:     https://github.com/GastonSabaj/FullStackOpenPart5.git",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:report": "playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.47.2",
+    "@types/node": "^22.7.4"
+  }
+}

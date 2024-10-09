@@ -22,7 +22,7 @@ const App = () => {
 
   //Este useEffect sirve para que si ya estabas logeado, te continue logeado mas allá de que refresques la página
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -50,8 +50,14 @@ const App = () => {
         username, password,
       })
 
+      const userForFrontend = {
+        username: user.username,
+        id: user.id,  // Almacena el id que devuelve el backend
+        token: user.token
+      }
+  
       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
+        'loggedBlogappUser', JSON.stringify(userForFrontend)
       ) 
       blogService.setToken(user.token)
       userService.setToken(user.token)
@@ -80,6 +86,7 @@ const App = () => {
         username
         <input
           type="text"
+          data-testid='username'
           value={username}
           name="Username"
           onChange={({ target }) => setUsername(target.value)}
@@ -89,6 +96,7 @@ const App = () => {
         password
         <input
           type="password"
+          data-testid='password'
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
@@ -118,6 +126,8 @@ const App = () => {
           setNotification(null)
         }, 5000)
         //event.target.reset()  // Limpiar el formulario después de la creación
+
+        console.log("El id de returnedBlog es: ",returnedBlog.id)
       })
       .catch(error => {
         console.log(error)
@@ -129,6 +139,7 @@ const App = () => {
   }
 
   const handleDeleteBlog = (id) => {
+    console.log("Elimino el blog: ", id)
     setBlogs(blogs.filter(blog => blog.id !== id));  // Filtra el blog eliminado de la lista
     setNotification(`Blog deleted successfully!`);
     setNotificationType('success');
@@ -151,7 +162,7 @@ const App = () => {
             setUser(null) 
             blogService.setToken(null)
             userService.setToken(null)
-          }}>logout</button>
+          }} data-testid='logout-button'>logout</button>
   
           <Togglable buttonLabel="new blog"  ref={blogFormRef}>
             <BlogForm

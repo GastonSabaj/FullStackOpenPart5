@@ -3,11 +3,13 @@ import  blogService  from '../services/blogs'
 import userService from '../services/users'
 
 const Blog = ({ blog, onDelete, user, onLikeHandler }) => {
-  
+  console.log("El usuario del Blog.jsx es :",user)
+  console.log("El blog recibido por props vale: ",blog)
   const [visible, setVisible] = useState(false)
   const [blogObject, setBlogObject] = useState(blog)
   //const [likes, setLikes] = useState(blog.likes)
 
+  console.log("El id de blogObject es: ",blogObject.id)
   useEffect(() => {
     console.log("Actualizo el blog!")
     setBlogObject(blogObject)
@@ -39,12 +41,16 @@ const Blog = ({ blog, onDelete, user, onLikeHandler }) => {
   };
 
   const deleteBlog =  () => {
-    //console.log(user)
-    //console.log(blogObject)
-    //Obtengo los datos del usuario logeado
+
+
     userService.getUser(user).then((usuarioLogeado) => {
       //Si el usuario logeado coincide con el usuario creador del blog, entonces puedo borrarlo
-      if(blogObject.user.id === usuarioLogeado.id){
+      console.log("el usuario logeado es: ",usuarioLogeado)
+      console.log("el blogObject es: ",blogObject)
+      //blogObject.user es el id del usuario que crea el blog
+      console.log(blogObject.user === usuarioLogeado.id)
+
+      if(blogObject.user === usuarioLogeado.id){
         if(window.confirm(`Do you really want to delete the blog "${blogObject.title}" by ${blogObject.author}?`)){
           blogService
             .deleteBlog(blogObject.id)
@@ -65,24 +71,25 @@ const Blog = ({ blog, onDelete, user, onLikeHandler }) => {
     <div style={blogStyle}>
       {!visible && (
         <div>
-          <span data-testid="blog-title">{blogObject.title}</span> 
-          <span data-testid="blog-author">{blogObject.author}</span>
-          <button onClick={toggleVisibility}>view</button>
+          <span data-testid={`blog-title-${blogObject.id}`}>{blogObject.title}</span> 
+          <span data-testid={`blog-author-${blogObject.id}`}>{blogObject.author}</span>
+          <button data-testid={`view-button-${blogObject.id}`} onClick={toggleVisibility}>view</button>
         </div>
       )}
       {visible && (
         <div>
-          <p data-testid="blog-title">{blogObject.title}</p>
-          <p data-testid="blog-author">{blogObject.author}</p>
-          <p data-testid="blog-url">{blogObject.url}</p>
-          <p data-testid="blog-likes">likes {blogObject.likes}</p>
-          <button onClick={addLike}>like</button>
+          <p data-testid={`blog-title-${blogObject.id}`}>{blogObject.title}</p>
+          <p data-testid={`blog-author-${blogObject.id}`}>{blogObject.author}</p>
+          <p data-testid={`blog-url-${blogObject.id}`}>{blogObject.url}</p>
+          <p data-testid={`blog-likes-${blogObject.id}`}>likes {blogObject.likes}</p>
+          <button data-testid={`like-button-${blogObject.id}`} onClick={addLike}>like</button>
           <button onClick={toggleVisibility}>hide</button>
-          <button style={{ backgroundColor: 'red' }} onClick={deleteBlog}>delete</button>
+          <button data-testid={`remove-button-${blogObject.id}`} style={{ backgroundColor: 'red' }} onClick={deleteBlog}>delete</button>
         </div>
       )}
     </div>
-  )
+  );
+
 }
 
 export default Blog
